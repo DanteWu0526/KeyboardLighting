@@ -37,7 +37,7 @@ namespace KeyboardLighting
 
                 lightModeGroupBox.Text = "light mode:";
                 LightModeChage(lightModeEnArr);
-                openColorPaletteButton.Text = "Open color palette";
+                openColorPaletteButton.Text = "choose the color";
             }
             else
             {
@@ -47,7 +47,7 @@ namespace KeyboardLighting
 
                 lightModeGroupBox.Text = "燈光模式:";
                 LightModeChage(lightModeChArr);
-                openColorPaletteButton.Text = "開啟調色盤";
+                openColorPaletteButton.Text = "選擇顏色";
             }
         }
 
@@ -81,7 +81,11 @@ namespace KeyboardLighting
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 //這邊寫要改顏色的邏輯
-                //button1.BackColor = colorDialog1.Color;
+                foreach (Control control in allPanel.Controls)
+                {
+                    control.BackColor = colorDialog1.Color;
+                }
+                //allPanel.BackColor = colorDialog1.Color;
             }
         }
     }
