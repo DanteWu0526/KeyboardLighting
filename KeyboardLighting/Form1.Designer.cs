@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             languageLabel = new Label();
             languageComboBox = new ComboBox();
             lightSwitchGroupBox = new GroupBox();
@@ -38,6 +39,8 @@
             openColorPaletteButton = new Button();
             colorDialog1 = new ColorDialog();
             allPanel = new Panel();
+            checkBox107 = new CheckBox();
+            checkBox108 = new CheckBox();
             checkBox106 = new CheckBox();
             checkBox104 = new CheckBox();
             checkBox105 = new CheckBox();
@@ -144,8 +147,7 @@
             checkBox6 = new CheckBox();
             checkBox1 = new CheckBox();
             checkBox2 = new CheckBox();
-            checkBox107 = new CheckBox();
-            checkBox108 = new CheckBox();
+            timer1 = new System.Windows.Forms.Timer(components);
             lightSwitchGroupBox.SuspendLayout();
             lightModeGroupBox.SuspendLayout();
             allPanel.SuspendLayout();
@@ -235,7 +237,7 @@
             openColorPaletteButton.TabIndex = 5;
             openColorPaletteButton.Text = "選擇顏色";
             openColorPaletteButton.UseVisualStyleBackColor = true;
-            openColorPaletteButton.Click += button1_Click;
+            openColorPaletteButton.Click += openColorPaletteButton_Click;
             // 
             // allPanel
             // 
@@ -351,6 +353,28 @@
             allPanel.Name = "allPanel";
             allPanel.Size = new Size(760, 263);
             allPanel.TabIndex = 134;
+            // 
+            // checkBox107
+            // 
+            checkBox107.Appearance = Appearance.Button;
+            checkBox107.BackColor = SystemColors.Control;
+            checkBox107.Location = new Point(655, 20);
+            checkBox107.Margin = new Padding(0);
+            checkBox107.Name = "checkBox107";
+            checkBox107.Size = new Size(25, 25);
+            checkBox107.TabIndex = 236;
+            checkBox107.UseVisualStyleBackColor = false;
+            // 
+            // checkBox108
+            // 
+            checkBox108.Appearance = Appearance.Button;
+            checkBox108.BackColor = SystemColors.Control;
+            checkBox108.Location = new Point(624, 20);
+            checkBox108.Margin = new Padding(0);
+            checkBox108.Name = "checkBox108";
+            checkBox108.Size = new Size(25, 25);
+            checkBox108.TabIndex = 235;
+            checkBox108.UseVisualStyleBackColor = false;
             // 
             // checkBox106
             // 
@@ -1518,27 +1542,10 @@
             checkBox2.TabIndex = 129;
             checkBox2.UseVisualStyleBackColor = false;
             // 
-            // checkBox107
+            // timer1
             // 
-            checkBox107.Appearance = Appearance.Button;
-            checkBox107.BackColor = SystemColors.Control;
-            checkBox107.Location = new Point(655, 20);
-            checkBox107.Margin = new Padding(0);
-            checkBox107.Name = "checkBox107";
-            checkBox107.Size = new Size(25, 25);
-            checkBox107.TabIndex = 236;
-            checkBox107.UseVisualStyleBackColor = false;
-            // 
-            // checkBox108
-            // 
-            checkBox108.Appearance = Appearance.Button;
-            checkBox108.BackColor = SystemColors.Control;
-            checkBox108.Location = new Point(624, 20);
-            checkBox108.Margin = new Padding(0);
-            checkBox108.Name = "checkBox108";
-            checkBox108.Size = new Size(25, 25);
-            checkBox108.TabIndex = 235;
-            checkBox108.UseVisualStyleBackColor = false;
+            timer1.Interval = 50;
+            timer1.Tick += timer1_Tick;
             // 
             // Form1
             // 
@@ -1688,5 +1695,6 @@
         private CheckBox checkBox97;
         private CheckBox checkBox107;
         private CheckBox checkBox108;
+        private System.Windows.Forms.Timer timer1;
     }
 }
