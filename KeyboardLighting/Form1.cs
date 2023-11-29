@@ -4,18 +4,29 @@ namespace KeyboardLighting
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// 語言陣列
+        /// </summary>
         string[] languageArr = { "English", "中文" };
-        string[] lightModeChArr = { "恆亮", "呼吸" };
-        string[] lightModeEnArr = { "Always bright", "respire" };
+        /// <summary>
+        /// 中文燈光陣列
+        /// </summary>
+        string[] lightModeChArr = { "恆亮", "呼吸", "自訂" };
+        /// <summary>
+        /// 英文燈光陣列
+        /// </summary>
+        string[] lightModeEnArr = { "Always bright", "Respire", "Customize" };
 
         private Color currentColor;
         private System.Windows.Forms.Timer brightnessTimer;
+
         public Form1()
         {
             InitializeComponent();
             Initial();
         }
 
+        #region 自訂邏輯區
         /// <summary>
         /// 初始化
         /// </summary>
@@ -25,6 +36,7 @@ namespace KeyboardLighting
             languageComboBox.SelectedIndex = 0;
             onRadioButton.Checked = true;
             lightModeComboBox.SelectedIndex = 0;
+            selectFunctionGroupBox.Visible = false;
         }
 
         /// <summary>
@@ -49,6 +61,9 @@ namespace KeyboardLighting
                 lightModeGroupBox.Text = "light mode:";
                 LightModeChage(lightModeEnArr);
                 openColorPaletteButton.Text = "choose the color";
+                selectFunctionGroupBox.Text = "Customize select function:";
+                alwaysBrightRadioButton.Text = "Always bright";
+                respireRadioButton.Text = "Respire";
             }
             else
             {
@@ -59,6 +74,9 @@ namespace KeyboardLighting
                 lightModeGroupBox.Text = "燈光模式:";
                 LightModeChage(lightModeChArr);
                 openColorPaletteButton.Text = "選擇顏色";
+                selectFunctionGroupBox.Text = "自訂選擇功能:";
+                alwaysBrightRadioButton.Text = "恆亮";
+                respireRadioButton.Text = "呼吸";
             }
         }
 
@@ -72,23 +90,80 @@ namespace KeyboardLighting
             lightModeComboBox.Items.AddRange(strs);
         }
 
+        /// <summary>
+        /// 依選擇模式改變顏色邏輯
+        /// </summary>
         private void ChangeColor()
         {
             if (lightModeComboBox.SelectedIndex == 0)
             {
+                AlwaysBright();
+            }
+            else if (lightModeComboBox.SelectedIndex == 1)
+            {
+                Respire();
+            }
+            else
+            {
+                CustomizeFunction();
+            }
+        }
+
+        /// <summary>
+        /// 燈光恆亮邏輯
+        /// </summary>
+        private void AlwaysBright()
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (Control control in allPanel.Controls)
+                {
+                    control.BackColor = colorDialog1.Color;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 呼吸燈邏輯
+        /// </summary>
+        private void Respire()
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (Control control in allPanel.Controls)
+                {
+                    currentColor = colorDialog1.Color;
+                    brightnessTimer = new System.Windows.Forms.Timer();
+                    brightnessTimer.Interval = 50;
+                    brightnessTimer.Tick += timer1_Tick;
+                    brightnessTimer.Start();
+                    control.BackColor = currentColor;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自訂燈號邏輯
+        /// </summary>
+        private void CustomizeFunction()
+        {
+            List<Object> checkedItems = GetCheckedCheckBoxes();
+
+            if (alwaysBrightRadioButton.Checked == true)
+            {
                 if (colorDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    foreach (Control control in allPanel.Controls)
+                    foreach (Control control in checkedItems)
                     {
                         control.BackColor = colorDialog1.Color;
                     }
                 }
             }
-            else if (lightModeComboBox.SelectedIndex == 1)
+            else if (respireRadioButton.Checked == true)
             {
                 if (colorDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    foreach (Control control in allPanel.Controls)
+                    foreach (Control control in checkedItems)
                     {
                         currentColor = colorDialog1.Color;
                         brightnessTimer = new System.Windows.Forms.Timer();
@@ -99,8 +174,31 @@ namespace KeyboardLighting
                     }
                 }
             }
+            else
+            {
+                return;
+            }
         }
 
+        /// <summary>
+        /// 取得所選擇的CheckBox邏輯
+        /// </summary>
+        /// <returns>選擇的CheckBox</returns>
+        private List<Object> GetCheckedCheckBoxes()
+        {
+            List<Object> checkedItems = new List<Object>();
+            foreach (Control control in allPanel.Controls)
+            {
+                if (control is CheckBox checkBox && checkBox.Checked)
+                {
+                    checkedItems.Add(checkBox);
+                }
+            }
+            return checkedItems;
+        }
+        #endregion
+
+        #region 表單控制區
         private void onRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             lightModeGroupBox.Visible = true;
@@ -122,7 +220,7 @@ namespace KeyboardLighting
         }
 
         /// <summary>
-        /// 呼吸燈功能
+        /// 呼吸燈計算功能
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -130,11 +228,32 @@ namespace KeyboardLighting
         {
             double breathingValue = (Math.Sin(DateTime.Now.Ticks / 10000000.0) + 1) / 2;
             Color newColor = ControlPaint.Light(currentColor, (float)breathingValue);
-            foreach (Control control in allPanel.Controls)
+
+            if (lightModeComboBox.SelectedIndex != 2)
             {
-                control.BackColor = newColor;
+                foreach (Control control in allPanel.Controls)
+                {
+                    control.BackColor = newColor;
+                }
+            }
+            else
+            {
+                List<Object> checkedItems = GetCheckedCheckBoxes();
+                foreach (Control control in checkedItems)
+                {
+                    control.BackColor = newColor;
+                }
             }
         }
+
+        private void lightModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lightModeComboBox.SelectedIndex == 2)
+            {
+                selectFunctionGroupBox.Visible = true;
+            }
+        }
+        #endregion
 
     }
 }

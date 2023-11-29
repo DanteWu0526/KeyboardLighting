@@ -148,9 +148,13 @@
             checkBox1 = new CheckBox();
             checkBox2 = new CheckBox();
             timer1 = new System.Windows.Forms.Timer(components);
+            selectFunctionGroupBox = new GroupBox();
+            respireRadioButton = new RadioButton();
+            alwaysBrightRadioButton = new RadioButton();
             lightSwitchGroupBox.SuspendLayout();
             lightModeGroupBox.SuspendLayout();
             allPanel.SuspendLayout();
+            selectFunctionGroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // languageLabel
@@ -227,13 +231,14 @@
             lightModeComboBox.Name = "lightModeComboBox";
             lightModeComboBox.Size = new Size(198, 28);
             lightModeComboBox.TabIndex = 5;
+            lightModeComboBox.SelectedIndexChanged += lightModeComboBox_SelectedIndexChanged;
             // 
             // openColorPaletteButton
             // 
             openColorPaletteButton.ForeColor = SystemColors.ActiveCaptionText;
-            openColorPaletteButton.Location = new Point(458, 43);
+            openColorPaletteButton.Location = new Point(448, 12);
             openColorPaletteButton.Name = "openColorPaletteButton";
-            openColorPaletteButton.Size = new Size(191, 35);
+            openColorPaletteButton.Size = new Size(324, 34);
             openColorPaletteButton.TabIndex = 5;
             openColorPaletteButton.Text = "選擇顏色";
             openColorPaletteButton.UseVisualStyleBackColor = true;
@@ -349,7 +354,7 @@
             allPanel.Controls.Add(checkBox6);
             allPanel.Controls.Add(checkBox1);
             allPanel.Controls.Add(checkBox2);
-            allPanel.Location = new Point(12, 203);
+            allPanel.Location = new Point(12, 186);
             allPanel.Name = "allPanel";
             allPanel.Size = new Size(760, 263);
             allPanel.TabIndex = 134;
@@ -1547,12 +1552,48 @@
             timer1.Interval = 50;
             timer1.Tick += timer1_Tick;
             // 
+            // selectFunctionGroupBox
+            // 
+            selectFunctionGroupBox.BackColor = SystemColors.ActiveCaptionText;
+            selectFunctionGroupBox.Controls.Add(respireRadioButton);
+            selectFunctionGroupBox.Controls.Add(alwaysBrightRadioButton);
+            selectFunctionGroupBox.ForeColor = SystemColors.ControlLightLight;
+            selectFunctionGroupBox.Location = new Point(451, 52);
+            selectFunctionGroupBox.Name = "selectFunctionGroupBox";
+            selectFunctionGroupBox.Size = new Size(320, 56);
+            selectFunctionGroupBox.TabIndex = 4;
+            selectFunctionGroupBox.TabStop = false;
+            selectFunctionGroupBox.Text = "Customize select function:";
+            // 
+            // respireRadioButton
+            // 
+            respireRadioButton.AutoSize = true;
+            respireRadioButton.Location = new Point(232, 27);
+            respireRadioButton.Name = "respireRadioButton";
+            respireRadioButton.Size = new Size(82, 24);
+            respireRadioButton.TabIndex = 1;
+            respireRadioButton.TabStop = true;
+            respireRadioButton.Text = "Respire";
+            respireRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // alwaysBrightRadioButton
+            // 
+            alwaysBrightRadioButton.AutoSize = true;
+            alwaysBrightRadioButton.Location = new Point(6, 27);
+            alwaysBrightRadioButton.Name = "alwaysBrightRadioButton";
+            alwaysBrightRadioButton.Size = new Size(128, 24);
+            alwaysBrightRadioButton.TabIndex = 0;
+            alwaysBrightRadioButton.TabStop = true;
+            alwaysBrightRadioButton.Text = "Always bright";
+            alwaysBrightRadioButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(784, 561);
+            Controls.Add(selectFunctionGroupBox);
             Controls.Add(allPanel);
             Controls.Add(openColorPaletteButton);
             Controls.Add(lightModeGroupBox);
@@ -1568,6 +1609,8 @@
             lightSwitchGroupBox.PerformLayout();
             lightModeGroupBox.ResumeLayout(false);
             allPanel.ResumeLayout(false);
+            selectFunctionGroupBox.ResumeLayout(false);
+            selectFunctionGroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1696,5 +1739,8 @@
         private CheckBox checkBox107;
         private CheckBox checkBox108;
         private System.Windows.Forms.Timer timer1;
+        private GroupBox selectFunctionGroupBox;
+        private RadioButton respireRadioButton;
+        private RadioButton alwaysBrightRadioButton;
     }
 }
